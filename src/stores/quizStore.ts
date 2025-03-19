@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 
 export const useQuizStore = defineStore('quiz', () => {
-  const apiKey = ref('')
+  const apiKey = ref(localStorage.getItem('openai_api_key') || '') // 🔥 Charge la clé depuis localStorage
   const topic = ref('')
   const difficulty = ref(10)
   const questions = ref<any[]>([])
@@ -12,6 +12,12 @@ export const useQuizStore = defineStore('quiz', () => {
 
   const setApiKey = (key: string) => {
     apiKey.value = key
+    localStorage.setItem('openai_api_key', key) // 🔥 Sauvegarde la clé API
+  }
+
+  const clearApiKey = () => {
+    apiKey.value = ''
+    localStorage.removeItem('openai_api_key') // 🔥 Supprime la clé si l'utilisateur veut la modifier
   }
 
   const setTopic = (newTopic: string) => {
@@ -28,7 +34,7 @@ export const useQuizStore = defineStore('quiz', () => {
 
   const startQuiz = () => {
     startTime.value = Date.now()
-    resetQuiz() // 🔥 Remettre à zéro le score et les réponses
+    resetQuiz()
   }
 
   const finishQuiz = () => {
@@ -44,7 +50,7 @@ export const useQuizStore = defineStore('quiz', () => {
 
   const getTimeElapsed = computed(() => {
     if (startTime.value && endTime.value) {
-      return (endTime.value - startTime.value) / 1000 // Temps en secondes
+      return (endTime.value - startTime.value) / 1000
     }
     return 0
   })
@@ -58,6 +64,7 @@ export const useQuizStore = defineStore('quiz', () => {
     startTime,
     endTime,
     setApiKey,
+    clearApiKey,
     setTopic,
     setDifficulty,
     setQuestions,

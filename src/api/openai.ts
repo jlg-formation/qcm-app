@@ -21,18 +21,18 @@ export async function generateQuiz(
     ],
     null,
     2,
-  ) // `null, 2` permet d’avoir un format bien indenté
+  )
 
-  const prompt =
-    `Génère un quiz sur le sujet suivant : "${topic}" avec un niveau de difficulté de ${difficulty}/100.
+  const prompt = `Génère un quiz sur le sujet suivant : "${topic}" avec un niveau de difficulté de ${difficulty}/100.
   Retourne exactement 5 questions sous **forme de JSON strictement valide** et structuré comme l'exemple suivant :
 
   ${exampleQuiz}
 
   **Contraintes** :
-  - Mélange l’ordre des choix **aléatoirement**.
+  - Mélange **aléatoirement** l’ordre des réponses.
+  - **Ne mets la bonne réponse en premier que rarement (moins de 20% du temps)**.
   - Sélectionne un \`correctAnswerIndex\` **aléatoire** entre 0 et 3.
-  - La sortie **doit être du JSON pur**, sans texte supplémentaire ni balises Markdown.`.trim() // Supprime les espaces inutiles
+  - La sortie **doit être du JSON pur**, sans texte supplémentaire ni balises Markdown.`
 
   try {
     const completion = await client.chat.completions.create({

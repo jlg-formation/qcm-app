@@ -17,12 +17,30 @@
           v-for="(choice, index) in currentQuestion.choices"
           :key="index"
           @click="selectAnswer(index)"
-          class="w-full rounded border p-2 transition-all hover:bg-gray-200"
+          class="w-full cursor-pointer rounded border p-2 transition-all"
+          :class="{
+            'bg-green-500 text-white': selectedAnswer === index && isCorrect,
+            'bg-red-500 text-white': selectedAnswer === index && !isCorrect,
+            'bg-green-200 text-black':
+              correctAnswerIndex === index && selectedAnswer !== null,
+            'hover:bg-gray-200': selectedAnswer === null,
+          }"
+          :disabled="selectedAnswer !== null"
         >
           {{ choice }}
         </button>
       </div>
 
+      <p v-if="selectedAnswer !== null" class="mt-4 text-lg font-semibold">
+        <span v-if="isCorrect" class="text-green-600">✅ Bravo !</span>
+        <span v-else class="text-red-600"
+          >❌ Mauvaise réponse. La bonne réponse était : "{{
+            currentQuestion.choices[correctAnswerIndex]
+          }}"</span
+        >
+      </p>
+
+      <!-- ✅ Bouton "Suivant" ajouté -->
       <button
         v-if="selectedAnswer !== null"
         @click="nextQuestion"
@@ -32,7 +50,6 @@
       </button>
     </div>
 
-    <!-- ✅ Correction : N'affiche ce message que si toutes les questions ont été répondues -->
     <div v-else-if="!loading && quizStore.questions.length > 0">
       <p class="text-center">Quiz terminé !</p>
       <router-link to="/results" class="text-blue-500"
@@ -51,14 +68,24 @@ const quizStore = useQuizStore()
 const loading = ref(true)
 const error = ref(null)
 const selectedAnswer = ref(null)
+const isCorrect = ref(false)
 const currentQuestionIndex = ref(0)
 const currentQuestion = computed(
   () => quizStore.questions[currentQuestionIndex.value],
 )
+const correctAnswerIndex = computed(
+  () => currentQuestion.value?.correctAnswerIndex ?? -1,
+)
 
 const selectAnswer = (index) => {
-  quizStore.answers.push({ question: currentQuestion.value, selected: index })
   selectedAnswer.value = index
+  isCorrect.value = index === correctAnswerIndex.value
+
+  quizStore.answers.push({
+    question: currentQuestion.value,
+    selected: index,
+    isCorrect: isCorrect.value,
+  })
 }
 
 const nextQuestion = () => {
@@ -82,7 +109,7 @@ onMounted(async () => {
   } catch (err) {
     error.value = err.message
   } finally {
-    loading.value = false // ✅ Stoppe le chargement une fois le quiz récupéré
+    loading.value = false
   }
 })
 </script>
