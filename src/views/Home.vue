@@ -1,43 +1,55 @@
 <template>
-  <div class="flex h-screen flex-col items-center justify-center space-y-4">
-    <h1 class="text-3xl font-bold">Générateur de QCM Dynamique</h1>
+  <div class="mx-auto w-full max-w-lg rounded-lg bg-white p-4 shadow-md">
+    <h1 class="mb-3 text-center text-xl font-bold">
+      Générateur de QCM Dynamique
+    </h1>
 
-    <!-- ✅ Si la clé API est déjà enregistrée, afficher un message -->
-    <div v-if="quizStore.apiKey">
-      <p class="text-green-600">✅ Clé OpenAI enregistrée</p>
+    <form @submit.prevent="startQuiz" class="space-y-3">
+      <div v-if="quizStore.apiKey" class="text-center text-green-600">
+        ✅ Clé OpenAI enregistrée
+        <button
+          @click="quizStore.clearApiKey"
+          type="button"
+          class="ml-2 text-red-500 underline"
+        >
+          Changer de clé
+        </button>
+      </div>
+
+      <input
+        v-else
+        v-model="apiKey"
+        type="password"
+        placeholder="Entrez votre clé OpenAI"
+        class="w-full rounded border p-2"
+      />
+
+      <input
+        v-model="topic"
+        type="text"
+        placeholder="Sujet du quiz (ex: Histoire de France)"
+        class="w-full rounded border p-2"
+        required
+      />
+
+      <div>
+        <input
+          v-model="difficulty"
+          type="range"
+          min="1"
+          max="100"
+          class="w-full"
+        />
+        <p class="text-center">Difficulté : {{ difficulty }}</p>
+      </div>
+
       <button
-        @click="quizStore.clearApiKey"
-        class="mt-2 text-red-500 underline"
+        type="submit"
+        class="h-10 w-full cursor-pointer rounded bg-blue-500 px-4 py-2 text-sm text-white transition-all hover:bg-blue-600"
       >
-        Changer de clé
+        Démarrer le quiz
       </button>
-    </div>
-
-    <!-- ✅ Champ affiché uniquement si aucune clé API n'est enregistrée -->
-    <input
-      v-else
-      v-model="apiKey"
-      type="password"
-      placeholder="Entrez votre clé OpenAI"
-      class="w-80 rounded border p-2"
-    />
-
-    <input
-      v-model="topic"
-      type="text"
-      placeholder="Sujet du quiz (ex: Histoire de France)"
-      class="w-80 rounded border p-2"
-    />
-
-    <input v-model="difficulty" type="range" min="1" max="100" class="w-80" />
-    <p>Difficulté : {{ difficulty }}</p>
-
-    <button
-      @click="startQuiz"
-      class="rounded bg-blue-500 px-6 py-2 text-white hover:bg-blue-600"
-    >
-      Démarrer le quiz
-    </button>
+    </form>
   </div>
 </template>
 

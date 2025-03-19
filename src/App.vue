@@ -1,16 +1,16 @@
 <template>
-  <div class="min-h-screen bg-gray-100 text-gray-900">
+  <div class="flex h-screen flex-col">
     <header class="bg-blue-500 py-4 text-white shadow-md">
       <div class="container mx-auto text-center text-2xl font-semibold">
         QCM Dynamique
       </div>
     </header>
 
-    <main class="container mx-auto p-6">
+    <main class="flex flex-grow items-center justify-center bg-gray-100 p-4">
       <router-view />
     </main>
 
-    <footer class="mt-10 bg-gray-200 py-4 text-center text-gray-600">
+    <footer class="bg-gray-200 py-3 text-center text-gray-600">
       <p>&copy; 2025 QCM Dynamique - Créé avec Vue 3 & TailwindCSS</p>
     </footer>
   </div>
