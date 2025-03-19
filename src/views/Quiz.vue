@@ -32,7 +32,8 @@
       </button>
     </div>
 
-    <div v-else>
+    <!-- ✅ Correction : N'affiche ce message que si toutes les questions ont été répondues -->
+    <div v-else-if="!loading && quizStore.questions.length > 0">
       <p class="text-center">Quiz terminé !</p>
       <router-link to="/results" class="text-blue-500"
         >Voir les résultats</router-link
@@ -80,7 +81,8 @@ onMounted(async () => {
     quizStore.setQuestions(questions)
   } catch (err) {
     error.value = err.message
+  } finally {
+    loading.value = false // ✅ Stoppe le chargement une fois le quiz récupéré
   }
-  loading.value = false
 })
 </script>

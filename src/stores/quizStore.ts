@@ -28,10 +28,18 @@ export const useQuizStore = defineStore('quiz', () => {
 
   const startQuiz = () => {
     startTime.value = Date.now()
+    resetQuiz() // 🔥 Remettre à zéro le score et les réponses
   }
 
   const finishQuiz = () => {
     endTime.value = Date.now()
+  }
+
+  const resetQuiz = () => {
+    questions.value = []
+    answers.value = []
+    startTime.value = null
+    endTime.value = null
   }
 
   const getTimeElapsed = computed(() => {
@@ -55,6 +63,7 @@ export const useQuizStore = defineStore('quiz', () => {
     setQuestions,
     startQuiz,
     finishQuiz,
+    resetQuiz,
     getTimeElapsed,
   }
 })
