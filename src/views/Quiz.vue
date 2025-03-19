@@ -1,60 +1,80 @@
 <template>
-  <div class="p-6">
-    <h2 class="mb-4 text-2xl font-bold">Quiz sur : {{ quizStore.topic }}</h2>
+  <div class="flex min-h-screen items-center justify-center bg-gray-100 p-4">
+    <div class="w-full max-w-lg rounded-lg bg-white p-4 shadow-md">
+      <h2 class="mb-3 text-center text-xl font-bold">
+        Quiz : {{ quizStore.topic }}
+      </h2>
 
-    <div v-if="loading" class="text-center text-gray-500">
-      Génération des questions...
-    </div>
-    <div v-if="error" class="text-center text-red-500">{{ error }}</div>
-
-    <div v-else-if="currentQuestion">
-      <p class="text-lg font-semibold">
-        {{ currentQuestionIndex + 1 }}. {{ currentQuestion.question }}
-      </p>
-
-      <div class="mt-4 space-y-2">
-        <button
-          v-for="(choice, index) in currentQuestion.choices"
-          :key="index"
-          @click="selectAnswer(index)"
-          class="w-full cursor-pointer rounded border p-2 transition-all"
-          :class="{
-            'bg-green-500 text-white': selectedAnswer === index && isCorrect,
-            'bg-red-500 text-white': selectedAnswer === index && !isCorrect,
-            'bg-green-200 text-black':
-              correctAnswerIndex === index && selectedAnswer !== null,
-            'hover:bg-gray-200': selectedAnswer === null,
-          }"
-          :disabled="selectedAnswer !== null"
-        >
-          {{ choice }}
-        </button>
+      <div v-if="loading" class="min-h-[40px] text-center text-gray-500">
+        Génération des questions...
+      </div>
+      <div v-if="error" class="min-h-[40px] text-center text-red-500">
+        {{ error }}
       </div>
 
-      <p v-if="selectedAnswer !== null" class="mt-4 text-lg font-semibold">
-        <span v-if="isCorrect" class="text-green-600">✅ Bravo !</span>
-        <span v-else class="text-red-600"
-          >❌ Mauvaise réponse. La bonne réponse était : "{{
-            currentQuestion.choices[correctAnswerIndex]
-          }}"</span
-        >
-      </p>
+      <div v-else-if="currentQuestion">
+        <p class="text-md text-center font-semibold">
+          {{ currentQuestionIndex + 1 }}. {{ currentQuestion.question }}
+        </p>
 
-      <!-- ✅ Bouton "Suivant" ajouté -->
-      <button
-        v-if="selectedAnswer !== null"
-        @click="nextQuestion"
-        class="mt-4 rounded bg-blue-500 px-6 py-2 text-white transition-all hover:bg-blue-600"
-      >
-        Suivant
-      </button>
-    </div>
+        <div class="mt-2 space-y-1">
+          <button
+            v-for="(choice, index) in currentQuestion.choices"
+            :key="index"
+            @click="selectAnswer(index)"
+            class="h-10 w-full cursor-pointer rounded border p-2 text-sm transition-all"
+            :class="{
+              'bg-green-500 text-white': selectedAnswer === index && isCorrect,
+              'bg-red-500 text-white': selectedAnswer === index && !isCorrect,
+              'bg-green-200 text-black':
+                correctAnswerIndex === index && selectedAnswer !== null,
+              'hover:bg-gray-200': selectedAnswer === null,
+            }"
+            :disabled="selectedAnswer !== null"
+          >
+            {{ choice }}
+          </button>
+        </div>
 
-    <div v-else-if="!loading && quizStore.questions.length > 0">
-      <p class="text-center">Quiz terminé !</p>
-      <router-link to="/results" class="text-blue-500"
-        >Voir les résultats</router-link
-      >
+        <!-- ✅ Réduction de l’espace du message de feedback -->
+        <div class="mt-2 flex min-h-[40px] items-center justify-center">
+          <p
+            v-if="selectedAnswer !== null"
+            class="text-center text-sm font-semibold opacity-100 transition-opacity"
+          >
+            <span v-if="isCorrect" class="text-green-600"
+              >✅ Bonne réponse !</span
+            >
+            <span v-else class="text-red-600"
+              >❌ Mauvaise réponse. La bonne réponse était : "{{
+                currentQuestion.choices[correctAnswerIndex]
+              }}"</span
+            >
+          </p>
+        </div>
+
+        <!-- ✅ Bouton suivant avec moins d’espace vertical -->
+        <div class="mt-2 flex min-h-[40px] items-center justify-center">
+          <button
+            v-if="selectedAnswer !== null"
+            @click="nextQuestion"
+            class="h-10 w-full cursor-pointer rounded bg-blue-500 px-4 py-2 text-sm text-white transition-all hover:bg-blue-600"
+          >
+            Suivant
+          </button>
+        </div>
+      </div>
+
+      <div v-else-if="!loading && quizStore.questions.length > 0">
+        <p class="text-center">Quiz terminé !</p>
+        <router-link to="/results">
+          <button
+            class="mt-2 h-10 w-full cursor-pointer rounded bg-green-500 px-4 py-2 text-sm text-white transition-all hover:bg-green-600"
+          >
+            Voir les résultats
+          </button>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
