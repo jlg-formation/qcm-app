@@ -19,13 +19,16 @@ export default router
 
 router.beforeEach(() => {
   const quizStore = useQuizStore()
-  if (
-    quizStore.quizEnCours &&
-    !confirm(
+  if (quizStore.quizEnCours) {
+    const doIWantToQuit = confirm(
       'Vous êtes en train de faire un quiz. Voulez-vous vraiment quitter ?',
     )
-  ) {
-    return false // Bloque la navigation
+    if (doIWantToQuit) {
+      quizStore.cancelQuiz()
+      return true
+    } else {
+      return false
+    }
   }
-  return true // Continue la navigation
+  return true
 })

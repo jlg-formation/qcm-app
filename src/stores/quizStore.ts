@@ -63,6 +63,15 @@ export const useQuizStore = defineStore('quiz', () => {
     return Math.floor((end - startTime.value) / 1000)
   })
 
+  const cancelQuiz = () => {
+    topic.value = ''
+    difficulty.value = 10
+    questions.value = []
+    answers.value = []
+    startTime.value = null
+    endTime.value = null
+  }
+
   return {
     apiKey,
     topic,
@@ -82,5 +91,6 @@ export const useQuizStore = defineStore('quiz', () => {
     terminerQuiz,
     score,
     timeElapsed,
+    cancelQuiz,
   }
 })

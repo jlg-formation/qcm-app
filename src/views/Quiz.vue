@@ -4,8 +4,12 @@
       Quiz : {{ quizStore.topic }}
     </h2>
 
-    <div v-if="loading" class="min-h-[40px] text-center text-gray-500">
-      Génération des questions...
+    <div
+      v-if="loading"
+      class="flex min-h-[40px] items-center justify-center gap-2 text-center text-gray-500"
+    >
+      <Spinner />
+      <span>Génération des questions...</span>
     </div>
     <div v-if="error" class="min-h-[40px] text-center text-red-500">
       {{ error }}
@@ -82,9 +86,11 @@
 </template>
 
 <script setup lang="ts">
+import Spinner from '../components/Spinner.vue' // 🆕 Ajout du Spinner
 import { ref, computed, onMounted } from 'vue'
 import { useQuizStore } from '../stores/quizStore'
 import { generateQuiz } from '../api/openai'
+import { storeToRefs } from 'pinia'
 
 const quizStore = useQuizStore()
 const loading = ref(true)
