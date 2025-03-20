@@ -21,7 +21,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useQuizStore } from '../stores/quizStore'
 import { computed } from 'vue'
 

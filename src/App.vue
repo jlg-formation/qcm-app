@@ -12,14 +12,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
 import Header from './components/Header.vue'
-import { useQuizStore } from './stores/quizStore'
-
-const appName = 'Quizify'
-
-const quizStore = useQuizStore()
 
 onMounted(() => {
   console.log('Application Quizify chargée !')

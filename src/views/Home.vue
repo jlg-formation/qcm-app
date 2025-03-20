@@ -53,7 +53,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useQuizStore } from '../stores/quizStore'
 import { ref } from 'vue'

@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import type { Question } from '../interfaces/Question'
 
 export const useQuizStore = defineStore('quiz', () => {
   const apiKey = ref(localStorage.getItem('openai_api_key') || '')
   const topic = ref('')
   const difficulty = ref(10)
-  const questions = ref<any[]>([])
+  const questions = ref<Question[]>([])
   const answers = ref<any[]>([])
   const startTime = ref<number | null>(null)
   const endTime = ref<number | null>(null)
@@ -40,8 +41,7 @@ export const useQuizStore = defineStore('quiz', () => {
     answers.value = []
   }
 
-  const commencerQuiz = (newQuestions: any[]) => {
-    setQuestions(newQuestions)
+  const commencerQuiz = () => {
     resetAnswers()
     startTime.value = Date.now()
     endTime.value = null

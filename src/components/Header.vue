@@ -12,14 +12,14 @@
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useQuizStore } from '../stores/quizStore'
 
 const router = useRouter()
 const quizStore = useQuizStore()
 
-const handleNavigation = (event) => {
+const handleNavigation = (event: MouseEvent) => {
   if (quizStore.quizEnCours) {
     const confirmation = confirm(
       'Vous êtes en train de faire un quiz. Voulez-vous vraiment quitter ?',

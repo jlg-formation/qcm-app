@@ -75,15 +75,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useQuizStore } from '../stores/quizStore'
 import { generateQuiz } from '../api/openai'
 
 const quizStore = useQuizStore()
 const loading = ref(true)
-const error = ref(null)
-const selectedAnswer = ref(null)
+const error = ref<string | null>(null)
+const selectedAnswer = ref<number | null>(null)
 const isCorrect = ref(false)
 const currentQuestionIndex = ref(0)
 const currentQuestion = computed(
@@ -93,7 +93,7 @@ const correctAnswerIndex = computed(
   () => currentQuestion.value?.correctAnswerIndex ?? -1,
 )
 
-const selectAnswer = (index) => {
+const selectAnswer = (index: number) => {
   selectedAnswer.value = index
   isCorrect.value = index === correctAnswerIndex.value
 
@@ -114,7 +114,6 @@ const nextQuestion = () => {
 }
 
 onMounted(async () => {
-  quizStore.commencerQuiz()
   try {
     const questions = await generateQuiz(
       quizStore.apiKey,
@@ -122,8 +121,9 @@ onMounted(async () => {
       quizStore.difficulty,
     )
     quizStore.setQuestions(questions)
+    quizStore.commencerQuiz()
   } catch (err) {
-    error.value = err.message
+    if (err instanceof Error) error.value = err.message
   } finally {
     loading.value = false
   }
