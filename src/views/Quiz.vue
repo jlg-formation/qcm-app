@@ -9,6 +9,12 @@
     </div>
     <div v-if="error" class="min-h-[40px] text-center text-red-500">
       {{ error }}
+      <button
+        @click="reloadQuiz"
+        class="mt-2 h-10 w-full cursor-pointer rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+      >
+        Réessayer
+      </button>
     </div>
 
     <div v-else-if="currentQuestion">
@@ -110,6 +116,26 @@ const nextQuestion = () => {
 
   if (!currentQuestion.value) {
     quizStore.terminerQuiz()
+  }
+}
+
+const reloadQuiz = async () => {
+  error.value = null
+  loading.value = true
+  quizStore.resetAnswers()
+  quizStore.setQuestions([])
+  try {
+    const questions = await generateQuiz(
+      quizStore.apiKey,
+      quizStore.topic,
+      quizStore.difficulty,
+    )
+    quizStore.setQuestions(questions)
+    quizStore.commencerQuiz()
+  } catch (err) {
+    if (err instanceof Error) error.value = err.message
+  } finally {
+    loading.value = false
   }
 }
 

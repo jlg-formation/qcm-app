@@ -31,12 +31,8 @@ export const useQuizStore = defineStore('quiz', () => {
     difficulty.value = level
   }
 
-  const setQuestions = (newQuestions: any[]) => {
+  const setQuestions = (newQuestions: Question[]) => {
     questions.value = newQuestions
-  }
-
-  const addAnswer = (answer: any) => {
-    answers.value.push(answer)
   }
 
   const resetAnswers = () => {
@@ -81,7 +77,6 @@ export const useQuizStore = defineStore('quiz', () => {
     setTopic,
     setDifficulty,
     setQuestions,
-    addAnswer,
     resetAnswers,
     commencerQuiz,
     terminerQuiz,
