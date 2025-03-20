@@ -1,27 +1,11 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import type { Question } from '../interfaces/Question'
-import CryptoJS from 'crypto-js'
-
-const SECRET_KEY: string = 'salt' + import.meta.env.VITE_SECRET_KEY + 'salt'
-console.log('SECRET_KEY: ', SECRET_KEY)
-
-const encryptAPIKey = (key: string): string => {
-  return CryptoJS.AES.encrypt(key, SECRET_KEY).toString()
-}
-
-const decryptAPIKey = (encryptedKey: string): string => {
-  try {
-    const bytes = CryptoJS.AES.decrypt(encryptedKey, SECRET_KEY)
-    return bytes.toString(CryptoJS.enc.Utf8)
-  } catch {
-    return ''
-  }
-}
+import { getDecryptedKey, setEncryptedKey } from '../utils/apiKey'
 
 export const useQuizStore = defineStore('quiz', () => {
-  const storedKey = localStorage.getItem('openai_api_key')
-  const apiKey = ref(storedKey ? decryptAPIKey(storedKey) : '')
+  const apiKey = ref(getDecryptedKey())
+
   const topic = ref('')
   const difficulty = ref(10)
   const questions = ref<Question[]>([])
@@ -31,8 +15,7 @@ export const useQuizStore = defineStore('quiz', () => {
 
   const setApiKey = (key: string) => {
     apiKey.value = key
-    const encryptedKey = encryptAPIKey(key)
-    localStorage.setItem('openai_api_key', encryptedKey)
+    setEncryptedKey(key)
   }
 
   const clearApiKey = () => {
