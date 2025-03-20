@@ -17,7 +17,6 @@ export async function generateQuiz(
       dangerouslyAllowBrowser: true, // ⚠️ Risqué, mais requis pour un front-end seul
     })
 
-    // Exemple JSON formaté correctement avec JSON.stringify()
     const exampleQuiz = JSON.stringify(
       [
         {
@@ -30,7 +29,9 @@ export async function generateQuiz(
       2,
     )
 
-    const prompt = `Génère un quiz sur le sujet suivant : "${topic}" avec un niveau de difficulté de ${difficulty}/100.
+    const sanitizedTopic = topic.slice(0, 100) // Évite un sujet trop long
+
+    const prompt = `Génère un quiz sur le sujet suivant : "${sanitizedTopic}" avec une difficulté de ${difficulty}/100.
     Retourne exactement 5 questions sous **forme de JSON strictement valide** et structuré comme l'exemple suivant :
   
     ${exampleQuiz}
@@ -52,10 +53,15 @@ export async function generateQuiz(
       throw new Error("Réponse vide de l'API OpenAI.")
     }
 
-    return JSON.parse(responseContent)
+    try {
+      return JSON.parse(responseContent)
+    } catch (error) {
+      console.error('Erreur lors du parsing JSON :', error, { responseContent })
+      throw new Error("Réponse mal formatée de l'API OpenAI.")
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : 'erreur technique'
-    console.error('Erreur API OpenAI :', error)
-    throw new Error('Erreur API OpenAI :' + message)
+    console.error('Erreur API OpenAI :', { message })
+    throw new Error('Erreur API OpenAI : ' + message)
   }
 }
