@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { ref, computed } from 'vue'
 
 export const useQuizStore = defineStore('quiz', () => {
-  const apiKey = ref(localStorage.getItem('openai_api_key') || '') // 🔥 Charge la clé depuis localStorage
+  const apiKey = ref(localStorage.getItem('openai_api_key') || '')
   const topic = ref('')
   const difficulty = ref(10)
   const questions = ref<any[]>([])
@@ -12,12 +12,12 @@ export const useQuizStore = defineStore('quiz', () => {
 
   const setApiKey = (key: string) => {
     apiKey.value = key
-    localStorage.setItem('openai_api_key', key) // 🔥 Sauvegarde la clé API
+    localStorage.setItem('openai_api_key', key)
   }
 
   const clearApiKey = () => {
     apiKey.value = ''
-    localStorage.removeItem('openai_api_key') // 🔥 Supprime la clé si l'utilisateur veut la modifier
+    localStorage.removeItem('openai_api_key')
   }
 
   const setTopic = (newTopic: string) => {
@@ -32,27 +32,31 @@ export const useQuizStore = defineStore('quiz', () => {
     questions.value = newQuestions
   }
 
-  const startQuiz = () => {
-    startTime.value = Date.now()
-    resetQuiz()
+  const addAnswer = (answer: any) => {
+    answers.value.push(answer)
   }
 
-  const finishQuiz = () => {
-    endTime.value = Date.now()
-  }
-
-  const resetQuiz = () => {
-    questions.value = []
+  const resetAnswers = () => {
     answers.value = []
-    startTime.value = null
+  }
+
+  const commencerQuiz = (newQuestions: any[]) => {
+    setQuestions(newQuestions)
+    resetAnswers()
+    startTime.value = Date.now()
     endTime.value = null
   }
 
-  const getTimeElapsed = computed(() => {
-    if (startTime.value && endTime.value) {
-      return (endTime.value - startTime.value) / 1000
-    }
-    return 0
+  const terminerQuiz = () => {
+    endTime.value = Date.now()
+  }
+
+  const quizEnCours = computed(
+    () => startTime.value !== null && endTime.value === null,
+  )
+
+  const score = computed(() => {
+    return answers.value.filter((answer) => answer.correct).length
   })
 
   return {
@@ -63,14 +67,16 @@ export const useQuizStore = defineStore('quiz', () => {
     answers,
     startTime,
     endTime,
+    quizEnCours,
     setApiKey,
     clearApiKey,
     setTopic,
     setDifficulty,
     setQuestions,
-    startQuiz,
-    finishQuiz,
-    resetQuiz,
-    getTimeElapsed,
+    addAnswer,
+    resetAnswers,
+    commencerQuiz,
+    terminerQuiz,
+    score,
   }
 })

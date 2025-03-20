@@ -109,12 +109,12 @@ const nextQuestion = () => {
   currentQuestionIndex.value++
 
   if (!currentQuestion.value) {
-    quizStore.finishQuiz()
+    quizStore.terminerQuiz()
   }
 }
 
 onMounted(async () => {
-  quizStore.startQuiz()
+  quizStore.commencerQuiz()
   try {
     const questions = await generateQuiz(
       quizStore.apiKey,

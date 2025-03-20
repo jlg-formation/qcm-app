@@ -80,7 +80,7 @@ const startQuiz = () => {
     return
   }
 
-  quizStore.resetQuiz()
+  quizStore.resetAnswers()
   quizStore.setTopic(topic.value)
   quizStore.setDifficulty(difficulty.value)
 

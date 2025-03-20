@@ -1,10 +1,6 @@
 <template>
   <div class="flex h-screen flex-col">
-    <header class="bg-blue-500 py-4 text-white shadow-md">
-      <div class="container mx-auto text-center text-2xl font-semibold">
-        {{ appName }}
-      </div>
-    </header>
+    <Header />
 
     <main class="flex flex-grow items-center justify-center bg-gray-100 p-4">
       <router-view />
@@ -18,6 +14,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
+import Header from './components/Header.vue'
 import { useQuizStore } from './stores/quizStore'
 
 const appName = 'Quizify'
