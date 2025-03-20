@@ -1,4 +1,5 @@
 import OpenAI from 'openai'
+import type { Question } from '../interfaces/Question'
 
 export async function generateQuiz(
   apiKey: string,
@@ -17,7 +18,7 @@ export async function generateQuiz(
         question: 'Quelle est la capitale de la France ?',
         choices: ['Londres', 'Berlin', 'Madrid', 'Paris'],
         correctAnswerIndex: 3,
-      },
+      } satisfies Question,
     ],
     null,
     2,
