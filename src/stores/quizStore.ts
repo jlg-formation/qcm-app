@@ -3,7 +3,8 @@ import { ref, computed } from 'vue'
 import type { Question } from '../interfaces/Question'
 import CryptoJS from 'crypto-js'
 
-const SECRET_KEY: string = import.meta.env.VITE_SECRET_KEY
+const SECRET_KEY: string = 'salt' + import.meta.env.VITE_SECRET_KEY + 'salt'
+console.log('SECRET_KEY: ', SECRET_KEY)
 
 const encryptAPIKey = (key: string): string => {
   return CryptoJS.AES.encrypt(key, SECRET_KEY).toString()
