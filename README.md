@@ -15,6 +15,12 @@ Développée avec **Vue 3**, **TypeScript**, **Vite**, et **TailwindCSS**, l'app
 - 📊 **Affichage des scores et résultats** après chaque session.
 - 🚀 **Déploiement facile sur GitHub Pages**.
 
+## Accéder à l'application
+
+L'application est disponible en ligne via **GitHub Pages**. Vous pouvez y accéder directement en suivant ce lien :
+
+🔗 [Accéder à QCM App](https://jlg-formation.github.io/qcm-app/)
+
 ## Installation et exécution
 
 ### Prérequis
