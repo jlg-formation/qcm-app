@@ -78,6 +78,12 @@ export const useQuizStore = defineStore('quiz', () => {
     return answers.value.filter((answer) => answer.correct).length
   })
 
+  const timeElapsed = computed(() => {
+    if (startTime.value === null) return 0
+    const end = endTime.value ?? Date.now()
+    return Math.floor((end - startTime.value) / 1000)
+  })
+
   return {
     apiKey,
     topic,
@@ -97,5 +103,6 @@ export const useQuizStore = defineStore('quiz', () => {
     commencerQuiz,
     terminerQuiz,
     score,
+    timeElapsed,
   }
 })

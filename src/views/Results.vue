@@ -8,7 +8,7 @@
       Score : {{ score }} / {{ quizStore.questions.length }}
     </p>
     <p class="text-gray-600">
-      ⏱ Temps écoulé : {{ quizStore.getTimeElapsed }} secondes
+      ⏱ Temps écoulé : {{ quizStore.timeElapsed }} secondes
     </p>
 
     <router-link to="/">
@@ -22,13 +22,13 @@
 </template>
 
 <script setup lang="ts">
-import { useQuizStore } from '../stores/quizStore'
 import { computed } from 'vue'
+import { useQuizStore } from '../stores/quizStore'
 
 const quizStore = useQuizStore()
 
 const score = computed(() =>
-  quizStore.answers.reduce((sum, answer, index) => {
+  quizStore.answers.reduce((sum, answer) => {
     return (
       sum + (answer.selected === answer.question.correctAnswerIndex ? 1 : 0)
     )
