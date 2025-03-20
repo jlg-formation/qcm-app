@@ -11,21 +11,22 @@
       ⏱ Temps écoulé : {{ quizStore.timeElapsed }} secondes
     </p>
 
-    <router-link to="/">
-      <button
-        class="mt-4 h-10 w-full cursor-pointer rounded bg-blue-500 px-4 py-2 text-sm text-white transition-all hover:bg-blue-600"
-      >
-        Refaire un quiz
-      </button>
-    </router-link>
+    <button
+      class="mt-4 h-10 w-full cursor-pointer rounded bg-blue-500 px-4 py-2 text-sm text-white transition-all hover:bg-blue-600"
+      @click="restartQuiz"
+    >
+      Refaire un quiz
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useQuizStore } from '../stores/quizStore'
+import { useRouter } from 'vue-router'
 
 const quizStore = useQuizStore()
+const router = useRouter()
 
 const score = computed(() =>
   quizStore.answers.reduce((sum, answer) => {
@@ -34,4 +35,11 @@ const score = computed(() =>
     )
   }, 0),
 )
+
+const restartQuiz = () => {
+  console.log('restartQuiz')
+  quizStore.resetAnswers()
+  quizStore.setQuestions([])
+  router.push('/')
+}
 </script>

@@ -86,11 +86,10 @@
 </template>
 
 <script setup lang="ts">
-import Spinner from '../components/Spinner.vue' // 🆕 Ajout du Spinner
-import { ref, computed, onMounted } from 'vue'
-import { useQuizStore } from '../stores/quizStore'
+import { computed, onMounted, ref } from 'vue'
 import { generateQuiz } from '../api/openai'
-import { storeToRefs } from 'pinia'
+import Spinner from '../components/Spinner.vue' // 🆕 Ajout du Spinner
+import { useQuizStore } from '../stores/quizStore'
 
 const quizStore = useQuizStore()
 const loading = ref(true)
