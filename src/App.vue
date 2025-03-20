@@ -2,7 +2,7 @@
   <div class="flex h-screen flex-col">
     <header class="bg-blue-500 py-4 text-white shadow-md">
       <div class="container mx-auto text-center text-2xl font-semibold">
-        QCM Dynamique
+        {{ appName }}
       </div>
     </header>
 
@@ -11,7 +11,7 @@
     </main>
 
     <footer class="bg-gray-200 py-3 text-center text-gray-600">
-      <p>&copy; 2025 QCM Dynamique - Créé avec Vue 3 & TailwindCSS</p>
+      <p>&copy; 2025 Quizify - Créé avec Vue 3 & TailwindCSS</p>
     </footer>
   </div>
 </template>
@@ -20,10 +20,12 @@
 import { onMounted } from 'vue'
 import { useQuizStore } from './stores/quizStore'
 
+const appName = 'Quizify'
+
 const quizStore = useQuizStore()
 
 onMounted(() => {
-  console.log('Application QCM Dynamique chargée !')
+  console.log('Application Quizify chargée !')
 })
 </script>
 
