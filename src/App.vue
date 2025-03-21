@@ -1,12 +1,14 @@
 <template>
-  <div class="flex h-screen flex-col">
+  <div
+    class="flex h-screen flex-col bg-gradient-to-br from-gray-100 to-gray-300"
+  >
     <Header />
 
-    <main class="flex flex-grow items-center justify-center bg-gray-100 p-4">
+    <main class="flex flex-grow items-center justify-center p-6">
       <router-view />
     </main>
 
-    <footer class="bg-gray-200 py-3 text-center text-gray-600">
+    <footer class="bg-gray-200 py-3 text-center text-gray-600 shadow-inner">
       <p>&copy; 2025 Quizify - Créé avec Vue 3 & TailwindCSS</p>
     </footer>
   </div>
@@ -22,9 +24,9 @@ onMounted(() => {
 </script>
 
 <style>
-/* Ajout d'une animation d'entrée globale */
+/* Effet de transition globale */
 .fade-enter-active {
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
 }
 .fade-enter,
 .fade-leave-to {
