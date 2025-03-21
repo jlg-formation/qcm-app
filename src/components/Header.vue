@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-blue-600 p-4 text-white">
+  <header class="bg-gray-100 p-4">
     <nav class="container mx-auto flex justify-center">
       <a href="#" class="text-2xl font-bold hover:underline"> Quizify </a>
     </nav>
